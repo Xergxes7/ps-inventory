@@ -694,6 +694,10 @@ RegisterNetEvent('ps-inventory:client:SetCurrentStash', function(stash)
     CurrentStash = stash
 end)
 
+RegisterNetEvent('inventory:client:SetCurrentStash', function(stash) --Generic Workaround
+    CurrentStash = stash
+end)
+
 
 RegisterNetEvent('ps-inventory:client:craftTarget',function()
     local crafting = {}
@@ -793,7 +797,7 @@ RegisterCommand('inventory', function()
     end
 end, false)
 
-RegisterKeyMapping('inventory', 'Open Inventory', 'keyboard', 'TAB')
+RegisterKeyMapping('inventory', 'Open Inventory', 'keyboard', Config.Keybinds.Open)
 
 RegisterCommand('hotbar', function()
     isHotbar = not isHotbar
@@ -802,7 +806,7 @@ RegisterCommand('hotbar', function()
     end
 end)
 
-RegisterKeyMapping('hotbar', 'Toggles keybind slots', 'keyboard', 'z')
+RegisterKeyMapping('hotbar', 'Toggles keybind slots', 'keyboard', Config.Keybinds.Hotbar)
 
 for i = 1, 6 do
     RegisterCommand('slot' .. i,function()
@@ -843,30 +847,37 @@ end)
 
 RegisterNUICallback('RemoveAttachment', function(data, cb)
     local ped = PlayerPedId()
-    local WeaponData = QBCore.Shared.Items[data.WeaponData.name]
-    print(data.AttachmentData.attachment:gsub("(.*).*_",''))
-    data.AttachmentData.attachment = data.AttachmentData.attachment:gsub("(.*).*_",'')
+    local WeaponData = data.WeaponData
+    local allAttachments = exports['qb-weapons']:getConfigWeaponAttachments()
+    local Attachment = allAttachments[data.AttachmentData.attachment][WeaponData.name]
+    local itemInfo = QBCore.Shared.Items[data.AttachmentData.attachment]
     QBCore.Functions.TriggerCallback('qb-weapons:server:RemoveAttachment', function(NewAttachments)
         if NewAttachments ~= false then
-            local attachments = {}
-            RemoveWeaponComponentFromPed(ped, GetHashKey(data.WeaponData.name), GetHashKey(data.AttachmentData.component))
+            local Attachies = {}
+            RemoveWeaponComponentFromPed(ped, joaat(WeaponData.name), joaat(Attachment))
             for _, v in pairs(NewAttachments) do
-                attachments[#attachments+1] = {
-                    attachment = v.item,
-                    label = v.label,
-                    image = QBCore.Shared.Items[v.item].image
-                }
+                for attachmentType, weapons in pairs(allAttachments) do
+                    local componentHash = weapons[WeaponData.name]
+                    if componentHash and v.component == componentHash then
+                        local label = itemInfo and itemInfo.label or 'Unknown'
+                        Attachies[#Attachies + 1] = {
+                            attachment = attachmentType,
+                            label = label,
+                        }
+                    end
+                end
             end
             local DJATA = {
-                Attachments = attachments,
+                Attachments = Attachies,
                 WeaponData = WeaponData,
+                itemInfo = itemInfo,
             }
             cb(DJATA)
         else
-            RemoveWeaponComponentFromPed(ped, GetHashKey(data.WeaponData.name), GetHashKey(data.AttachmentData.component))
+            RemoveWeaponComponentFromPed(ped, joaat(WeaponData.name), joaat(Attachment))
             cb({})
         end
-    end, data.AttachmentData, data.WeaponData)
+    end, data.AttachmentData, WeaponData)
 end)
 
 RegisterNUICallback('getCombineItem', function(data, cb)
@@ -1042,7 +1053,7 @@ end)
 
 
     --qb-target
-    RegisterNetEvent("ps-inventory:client:Crafting", function(dropId)
+    --[[RegisterNetEvent("ps-inventory:client:Crafting", function(dropId)
         local crafting = {}
         crafting.label = "Crafting"
         crafting.items = GetThresholdItems()
@@ -1081,4 +1092,4 @@ end)
                 },
             },
         distance = 1.0
-    })
+    })]]

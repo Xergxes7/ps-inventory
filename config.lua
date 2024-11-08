@@ -2,13 +2,30 @@ Config = {}
 
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- Use qb-target interactions (don't change this, go to your server.cfg and add `setr UseTarget true` to use this and just that from true to false or the other way around)
 
-Config.MaxInventoryWeight = 120000 -- Max weight a player can carry (default 120kg, written in grams)
-Config.MaxInventorySlots = 41 -- Max inventory slots for a player
+Config.MaxInventoryWeight = 400000 -- Max weight a player can carry (default 120kg, written in grams)
+Config.MaxInventorySlots = 40 -- Max inventory slots for a player
 
 Config.CleanupDropTime = 15 * 60 -- How many seconds it takes for drops to be untouched before being deleted
 Config.MaxDropViewDistance = 12.5 -- The distance in GTA Units that a drop can be seen
-Config.UseItemDrop = false -- This will enable item object to spawn on drops instead of markers
-Config.ItemDropObject = `sf_prop_sf_backpack_01a` -- if Config.UseItemDrop is true, this will be the prop that spawns for the item
+Config.UseItemDrop = true -- This will enable item object to spawn on drops instead of markers
+Config.ItemDropObject = `hei_prop_hei_paper_bag` -- if Config.UseItemDrop is true, this will be the prop that spawns for the item
+
+
+Config.StashSize = {
+    maxweight = 2000000,
+    slots = 100
+}
+--[[
+Config.DropSize = {
+    maxweight = 400000,
+    slots = 50
+}
+]]
+Config.Keybinds = {
+    Open = 'TAB',
+    Hotbar = 'Z',
+}
+
 
 Config.Progressbar = {
     Enable = false,         -- True to Enable the progressbar while opening inventory
@@ -17,9 +34,10 @@ Config.Progressbar = {
 }
 
 Config.VendingObjects = {
-    "prop_vend_soda_01",
-    "prop_vend_soda_02",
-    "prop_vend_water_01"
+    'prop_vend_soda_01',
+    'prop_vend_soda_02',
+    'prop_vend_water_01',
+    'prop_vend_coffe_01',
 }
 
 Config.BinObjects = {
@@ -367,6 +385,7 @@ BackEngineVehicles = {
     [`re7b`] = true,
     [`tyrus`] = true,
     [`italigtb`] = true,
+    [`italirsx`] = true,
     [`penetrator`] = true,
     [`monroe`] = true,
     [`ninef2`] = true,
@@ -387,70 +406,106 @@ Config.MaximumAmmoValues = {
 
 Config.VehicleInventories = {
     default = { -- This is the default inventory for all vehicles not specified in classes or vehicles below
+        gloveboxSlots = 5,
+        gloveboxWeight = 10000,
         weight = 60000,
         slots = 35,
     },
     classes = { -- This is the inventory for each class of vehicle
-        [0] = {
-            maxWeight = 38000,
+            [0] = { -- Compacts
             slots = 30,
-        },
-        [1] = {
-            maxWeight = 50000,
-            slots = 40,
-        },
-        [2] = {
-            maxWeight = 75000,
-            slots = 50,
-        },
-        [3] = {
-            maxWeight = 42000,
-            slots = 35,
-        },
-        [4] = {
-            maxWeight = 38000,
-            slots = 30,
-        },
-        [5] = {
-            maxWeight = 30000,
-            slots = 25,
-        },
-        [6] = {
-            maxWeight = 30000,
-            slots = 25,
-        },
-        [7] = {
-            maxWeight = 30000,
-            slots = 25,
-        },
-        [8] = {
-            maxWeight = 15000,
-            slots = 15,
-        },
-        [9] = {
-            maxWeight = 60000,
-            slots = 35,
-        },
-        [12] = {
-            maxWeight = 120000,
-            slots = 35,
-        },
-        [13] = {
-            maxWeight = 0,
-            slots = 0,
-        },
-        [14] = {
-            maxWeight = 120000,
-            slots = 50,
-        },
-        [15] = {
-            maxWeight = 120000,
-            slots = 50,
-        },
-        [16] = {
-            maxWeight = 120000,
-            slots = 50,
-        }
+            maxWeight = 480000
+            },
+            [1] = { -- Sedans
+                slots = 40,
+                maxWeight = 550000
+            },
+            [2] = { -- SUVs
+                slots = 50,
+                maxWeight = 850000
+            },
+            [3] = { -- Coupes
+                slots = 35,
+                maxWeight = 520000
+            },
+            [4] = { -- Muscle
+                slots = 30,
+                maxWeight = 480000
+            },
+            [5] = { -- Sports Classics
+                slots = 25,
+                maxWeight = 350000
+            },
+            [6] = { -- Sports
+                slots = 25,
+                maxWeight = 350000
+            },
+            [7] = { -- Super
+                slots = 25,
+                maxWeight = 300000
+            },
+            [8] = { -- Motorcycles
+                slots = 15,
+                maxWeight = 150000
+            },
+            [9] = { -- Off-road
+                slots = 35,
+                maxWeight = 650000
+            },
+            [10] = { -- Industrial 
+                slots = 35,
+                maxWeight = 1250000
+            },
+
+            [11] = { -- Utility 
+                slots = 35,
+                maxWeight = 1250000
+            },
+
+            [12] = { -- Vans
+                slots = 35,
+                maxWeight = 1250000
+            },
+            [13] = { -- Cycles
+                slots = 0,
+                maxWeight = 0
+            },
+            [14] = { -- Boats
+                slots = 50,
+                maxWeight = 1200000
+            },
+            [15] = { -- Helicopters
+                slots = 50,
+                maxWeight = 120000
+            },
+            [16] = { -- Planes
+                slots = 50,
+                maxWeight = 1200000
+            },
+            [17] = { -- service
+                slots = 35,
+                maxWeight = 850000
+            },
+            [18] = { -- Emergency
+                slots = 35,
+                maxWeight = 480000
+            },
+            [19] = { -- Military
+                slots = 0,
+                maxWeight = 0
+            },
+            [20] = { -- Commercial
+                slots = 0,
+                maxWeight = 0
+            },
+            [21] = { -- trains
+                slots = 0,
+                maxWeight = 0
+            },
+            [22] = { -- Commercial
+                slots = 0,
+                maxWeight = 0
+            }
     },
     vehicles = { -- This is the inventory for each vehicle individually
         ["rumpo"] = {
