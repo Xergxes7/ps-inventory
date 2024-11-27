@@ -346,6 +346,20 @@ function FormatAttachmentInfo(data) {
     );
 }
 
+function copySerial() {
+    if (!ClickedItemData.info.serie) {
+        return;
+    }
+    const item = ClickedItemData.info;
+    if (item) {
+        const el = document.createElement("textarea");
+        el.value = item.serie;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+    }
+};
 var AttachmentDraggingData = {};
 
 function handleAttachmentDrag() {
@@ -493,6 +507,71 @@ function FormatItemInfo(itemData, dom) {
                 itemData.info.type +
                 "</span></p>"
             );
+        } else if (itemData.name == "jerrycan") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Fuel Left: </strong><span>" +
+                itemData.info.gasamount +
+                "</span></p>"
+            );
+        } else if (itemData.name == "mdtcitation") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Date Given: </strong><span>" +
+                itemData.info.date +
+                "</span></p><p><strong>Recipient ID: </strong><span>" +
+                itemData.info.citizenId +
+                "</span></p><p><strong>Fine Given: </strong><span>" +
+                itemData.info.fine +
+                "</span></p><p><strong>Issued By: </strong><span>" +
+                itemData.info.officer +
+                "</span></p>"
+            );
+        } else if (itemData.name == "huntinglicense") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>First Name: </strong><span>" +
+                itemData.info.firstname +
+                "</span></p><p><strong>Last Name: </strong><span>" +
+                itemData.info.lastname +
+                "</span></p><p><strong>Birth Date: </strong><span>" +
+                itemData.info.birthdate +
+                "</span></p><p><strong>Licenses: </strong><span>" +
+                "Permits holder to carry Musket and Hunt legal animals" +
+                "</span></p>"
+            );
+        } else if (itemData.name == "mechboard") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Vehicle: </strong><span>" +
+                itemData.info.veh +
+                "</span></p><p><strong>Plate: </strong><span>" +
+                itemData.info.vehplate +
+                "</span></p><p><strong>Modifications: </strong><span>" +
+                itemData.info.vehlist +
+                "</span></p>"
+            );
+        } else if (itemData.name == "smallbackpack") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Back Pack ID: </strong><span>" +
+                itemData.info.id +
+                "</span></p>"
+            );
+        } else if (itemData.name == "mediumbackpack") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Back Pack ID: </strong><span>" +
+                itemData.info.id +
+                "</span></p>"
+            );
+        } else if (itemData.name == "largebackpack") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Back Pack ID: </strong><span>" +
+                itemData.info.id +
+                "</span></p>"
+            );
         } else if (itemData.name == "weaponlicense") {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
             $(".item-info-description").html(
@@ -504,17 +583,17 @@ function FormatItemInfo(itemData, dom) {
                 itemData.info.birthdate +
                 "</span></p>"
             );
-        } else if (itemData.name == "lawyerpass") {
+        } else if (itemData.name == "fishinglicense") {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
             $(".item-info-description").html(
-                "<p><strong>Pass-ID: </strong><span>" +
-                itemData.info.id +
-                "</span></p><p><strong>First Name: </strong><span>" +
+                "<p><strong>First Name: </strong><span>" +
                 itemData.info.firstname +
                 "</span></p><p><strong>Last Name: </strong><span>" +
                 itemData.info.lastname +
-                "</span></p><p><strong>CSN: </strong><span>" +
-                itemData.info.citizenid +
+                "</span></p><p><strong>Birth Date: </strong><span>" +
+                itemData.info.birthdate +
+                "</span></p><p><strong>Gender: </strong><span>" +
+                itemData.info.gender +
                 "</span></p>"
             );
         } else if (itemData.name == "harness") {
@@ -653,6 +732,33 @@ function FormatItemInfo(itemData, dom) {
         } else if (itemData.name == "labkey") {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
             $(".item-info-description").html("<p>Lab: " + itemData.info.lab + "</p><p style=\"font-size:11px\"><b>Weight: </b>" + itemData.weight + " | <b>Amount: </b> " + itemData.amount + " | <b>Quality: </b> " + "<a style=\"font-size:11px;color:green\">" + Math.floor(itemData.info.quality) + "</a>");
+        } else if (itemData.name == "document") {
+            $(".item-info-title").html("<p>" + "Document" + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Document ID: </strong><span>" +
+                itemData.info.documentidentifier +
+                "</span></p><p><strong>Document Name: </strong><span>" +
+                itemData.info.documentname +
+                "</span></p><p><strong>Creator: </strong><span>" +
+                itemData.info.documentcreator +
+                "</span></p>"
+            );
+        } else if (itemData.name == "printerdocument") {
+            $(".item-info-title").html("<p>" + "Printed Document" + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Document Name: </strong><span>" +
+                itemData.info.name +
+                "</span></p>"
+            );
+        } else if (itemData.name == "lawyerpass") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+                "<p><strong>Bar ID: </strong><span>" +
+                itemData.info.baridnumber +
+                "</span></p><p><strong>Full Name: </strong><span>" +
+                itemData.info.lawyername +
+                "</span></p>"
+            );
         } else {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
             $(".item-info-description").html("<p>" + itemData.description + "</p><p style=\"font-size:11px\"><b>Weight: </b>" + itemData.weight + " | <b>Amount: </b> " + itemData.amount + " | <b>Quality: </b> " + "<a style=\"font-size:11px;color:green\">" + Math.floor(itemData.info.quality) + "</a>");

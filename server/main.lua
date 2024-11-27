@@ -2159,7 +2159,7 @@ RegisterNetEvent('ps-inventory:server:SetInventoryData', function(fromInventory,
 		else
             QBCore.Functions.Notify(src, Lang:t("notify.itemexist"), "error")
 		end
-		elseif QBCore.Shared.SplitStr(fromInventory, "-")[1] == "traphouse" then
+	elseif QBCore.Shared.SplitStr(fromInventory, "-")[1] == "traphouse" then
 		local traphouseId = QBCore.Shared.SplitStr(fromInventory, "_")[2]
 		local fromItemData = exports['qb-traphouse']:GetInventoryData(traphouseId, fromSlot)
 		fromAmount = tonumber(fromAmount) or fromItemData.amount
@@ -2213,7 +2213,10 @@ RegisterNetEvent('ps-inventory:server:SetInventoryData', function(fromInventory,
 		local itemInfo = QBCore.Shared.Items[itemData.name:lower()]
 		local bankBalance = Player.PlayerData.money["bank"]
 		local price = tonumber((itemData.price*fromAmount))
-
+		if itemData.type == "backpack" then
+			itemData.info.id = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
+			itemData.info.quality = 100
+		end
 		if QBCore.Shared.SplitStr(shopType, "_")[1] == "Dealer" then
 			if QBCore.Shared.SplitStr(itemData.name, "_")[1] == "weapon" then
 				price = tonumber(itemData.price)
@@ -2242,6 +2245,9 @@ RegisterNetEvent('ps-inventory:server:SetInventoryData', function(fromInventory,
                 if QBCore.Shared.SplitStr(itemData.name, "_")[1] == "weapon" then
                     itemData.info.serie = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
                     itemData.info.quality = 100
+				elseif itemData.type == "backpack" then
+                    itemData.info.id = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
+                    itemData.info.quality = 100
                 end
                 local serial = itemData.info.serie
                 local imageurl = ("https://cfx-nui-ps-inventory/html/images/%s.png"):format(itemData.name)
@@ -2258,6 +2264,9 @@ RegisterNetEvent('ps-inventory:server:SetInventoryData', function(fromInventory,
                 Player.Functions.RemoveMoney("bank", price, "itemshop-bought-item")
                 if QBCore.Shared.SplitStr(itemData.name, "_")[1] == "weapon" then
                     itemData.info.serie = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
+                    itemData.info.quality = 100
+				elseif itemData.type == "backpack" then
+                    itemData.info.id = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
                     itemData.info.quality = 100
                 end
                 local serial = itemData.info.serie
